@@ -3,6 +3,7 @@ package kg.transparency.dt4ce.service.Impl;
 import kg.transparency.dt4ce.dto.initiative.RequestInitiativeDTO;
 import kg.transparency.dt4ce.dto.initiative.ResponseInitiativeDTO;
 import kg.transparency.dt4ce.enums.Status;
+import kg.transparency.dt4ce.exception.NoAccessException;
 import kg.transparency.dt4ce.exception.NotFoundException;
 import kg.transparency.dt4ce.model.Initiative;
 import kg.transparency.dt4ce.model.User;
@@ -20,6 +21,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,11 +71,17 @@ public class InitiativeServiceImpl implements InitiativeService {
 
     @Override
     public ResponseEntity<Long> addInitiative(RequestInitiativeDTO initiativeDTO, User user) {
+        if(!canUserProposeInitiative(user)){
+            throw new NoAccessException("Вы можете предлагать инициативу только 1 раз в сутки");
+        }
+
         Initiative initiative = Initiative.builder()
                 .title(initiativeDTO.getTitle())
                 .description(initiativeDTO.getDescription())
                 .status(Status.PENDING)
                 .viewsCount(0)
+                .forVotesCount(0)
+                .againstVotesCount(0)
                 .user(user)
                 .build();
 
@@ -124,5 +133,23 @@ public class InitiativeServiceImpl implements InitiativeService {
         }
 
         return QRCodeGenerator.generateQR(initiativeId);
+    }
+
+    private boolean canUserProposeInitiative(User user) {
+        LocalDateTime lastInitiativeCreationTime = initiativeRepository.findLastCreationTimeByUser(user);
+
+        if (lastInitiativeCreationTime == null) {
+            return true;
+        }
+
+        LocalDateTime currentTime = LocalDateTime.now();
+        Duration duration = Duration.between(lastInitiativeCreationTime, currentTime);
+        long hoursPassed = duration.toHours();
+
+        if (hoursPassed >= 24) {
+            return true;
+        }
+
+        return false;
     }
 }

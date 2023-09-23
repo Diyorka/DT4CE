@@ -27,6 +27,10 @@ public class Initiative extends BaseEntity{
 
     int viewsCount;
 
+    int forVotesCount;
+
+    int againstVotesCount;
+
     @Enumerated(EnumType.STRING)
     Status status;
 

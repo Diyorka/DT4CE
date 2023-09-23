@@ -1,16 +1,12 @@
 package kg.transparency.dt4ce.dto.initiative;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import kg.transparency.dt4ce.dto.user.ResponseUserDTO;
 import kg.transparency.dt4ce.model.Initiative;
-import kg.transparency.dt4ce.model.User;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import static kg.transparency.dt4ce.dto.user.ResponseUserDTO.toResponseUserDTO;
@@ -28,7 +24,14 @@ public class ResponseInitiativeDTO {
 
     String description;
 
+    @JsonProperty("views_count")
     int viewsCount;
+
+    @JsonProperty("for_votes_count")
+    int forVotesCount;
+
+    @JsonProperty("against_votes_count")
+    int againstVotesCount;
 
     List<String> imageUrls;
 
