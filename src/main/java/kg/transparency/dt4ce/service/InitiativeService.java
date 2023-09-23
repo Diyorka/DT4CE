@@ -22,4 +22,6 @@ public interface InitiativeService {
     ResponseEntity<String> updateInitiative(Long id, RequestInitiativeDTO initiativeDTO, User user);
 
     ResponseEntity<String> deleteInitiative(Long id, User user);
+
+    ResponseEntity<byte[]> generateQR(Long initiativeId);
 }

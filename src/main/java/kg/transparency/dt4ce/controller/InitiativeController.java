@@ -30,6 +30,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class InitiativeController {
     InitiativeService initiativeService;
 
+    @GetMapping("/{initiative_id}/generate-qr-code")
+    @SecurityRequirement(name = "JWT")
+    @Operation(
+            summary = "Сгенерировать QR Code по айди инициативы"
+    )
+    public ResponseEntity<byte[]> generateQR(@PathVariable Long initiative_id){
+        return initiativeService.generateQR(initiative_id);
+    }
+
     @GetMapping("/my-initiatives")
     @SecurityRequirement(name = "JWT")
     @Operation(

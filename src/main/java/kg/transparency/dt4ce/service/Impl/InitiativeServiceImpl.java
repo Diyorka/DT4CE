@@ -9,6 +9,7 @@ import kg.transparency.dt4ce.model.User;
 import kg.transparency.dt4ce.repository.InitiativeRepository;
 import kg.transparency.dt4ce.service.ImageService;
 import kg.transparency.dt4ce.service.InitiativeService;
+import kg.transparency.dt4ce.util.QRCodeGenerator;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -114,5 +115,14 @@ public class InitiativeServiceImpl implements InitiativeService {
         initiativeRepository.save(initiative);
 
         return ResponseEntity.ok("Инициатива удалена");
+    }
+
+    @Override
+    public ResponseEntity<byte[]> generateQR(Long initiativeId) {
+        if(!initiativeRepository.existsById(initiativeId)){
+            throw new NotFoundException("Инициатива с таким айди не найдена");
+        }
+
+        return QRCodeGenerator.generateQR(initiativeId);
     }
 }
