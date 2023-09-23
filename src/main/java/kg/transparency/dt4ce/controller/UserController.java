@@ -43,4 +43,14 @@ public class UserController {
         return userService.activateAccount(name, surname, date_of_birth, passFront, passBack, selfie, user);
     }
 
+    @PostMapping(value = "/add-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @SecurityRequirement(name = "JWT")
+    @Operation(
+            summary = "Добавить/обновить фото профиля"
+    )
+    public ResponseEntity<String> addImage(@RequestPart MultipartFile image,
+                                           @AuthenticationPrincipal User user){
+        return userService.addImage(image, user);
+    }
+
 }

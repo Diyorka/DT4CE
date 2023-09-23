@@ -42,4 +42,10 @@ public class UserServiceImpl implements UserService {
 
         return ResponseEntity.ok("Аккаунт успешно отправлен на рассмотрение администраторам!");
     }
+
+    @Override
+    public ResponseEntity<String> addImage(MultipartFile image, User user) {
+        user.setImageUrl(imageService.saveImage(image));
+        return ResponseEntity.ok("Изображение успешно добавлено");
+    }
 }

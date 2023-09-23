@@ -14,4 +14,6 @@ public interface UserService {
                                            MultipartFile passBack,
                                            MultipartFile selfie,
                                            User user);
+
+    ResponseEntity<String> addImage(MultipartFile image, User user);
 }
