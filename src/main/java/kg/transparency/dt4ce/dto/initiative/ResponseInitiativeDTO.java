@@ -47,6 +47,8 @@ public class ResponseInitiativeDTO {
                 .title(initiative.getTitle())
                 .description(initiative.getDescription())
                 .viewsCount(initiative.getViewsCount())
+                .forVotesCount(initiative.getForVotesCount())
+                .againstVotesCount(initiative.getAgainstVotesCount())
                 .imageUrls(initiative.getImageUrls())
                 .user(toResponseUserDTO(initiative.getUser()))
                 .createdAt(initiative.getCreatedAt())
