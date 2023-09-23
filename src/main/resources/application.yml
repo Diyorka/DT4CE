@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: ${PG_DB_URL}
+    username: ${PG_USERNAME}
+    password: ${PG_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+
+app:
+  jwtSecret: Fg8w2iUV7F1S3HE+v66zJCtfhP4YwxXcP8RntqmU7KrxUmSUUS4HXYvmAVcfh200
+  jwtExpirationInMs: 36000000
