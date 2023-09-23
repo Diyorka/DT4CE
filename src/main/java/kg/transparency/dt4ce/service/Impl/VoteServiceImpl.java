@@ -54,6 +54,7 @@ public class VoteServiceImpl implements VoteService {
                 initiative.setAgainstVotesCount(initiative.getAgainstVotesCount() - 1);
             }
 
+            initiativeRepository.save(initiative);
             voteRepository.delete(vote);
             return ResponseEntity.ok("Голос удален");
         }
@@ -68,6 +69,7 @@ public class VoteServiceImpl implements VoteService {
             initiative.setAgainstVotesCount(initiative.getAgainstVotesCount() + 1);
         }
 
+        initiativeRepository.save(initiative);
         voteRepository.save(vote);
 
         return ResponseEntity.ok("Голос успешно изменён");
