@@ -30,8 +30,6 @@ public class ResponseCommentDTO {
 
     LocalDateTime createdAt;
 
-    ResponseInitiativeDTO initiative;
-
     ResponseUserDTO user;
 
     public static ResponseCommentDTO toResponseCommentDTO(Comment comment){
@@ -39,7 +37,6 @@ public class ResponseCommentDTO {
                 .id(comment.getId())
                 .text(comment.getText())
                 .createdAt(comment.getCreatedAt())
-                .initiative(toResponseInitiativeDTO(comment.getInitiative()))
                 .user(toResponseUserDTO(comment.getUser()))
                 .build();
     }
