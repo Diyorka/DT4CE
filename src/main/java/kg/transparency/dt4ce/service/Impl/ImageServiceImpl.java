@@ -3,16 +3,20 @@ package kg.transparency.dt4ce.service.Impl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import kg.transparency.dt4ce.exception.FileEmptyException;
+import kg.transparency.dt4ce.model.Initiative;
 import kg.transparency.dt4ce.service.ImageService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -24,6 +28,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     @SneakyThrows
+    @Async
     public String saveImage(MultipartFile file) {
         if (file == null || file.isEmpty()) {
             throw new FileEmptyException("File can't be empty");
@@ -44,5 +49,16 @@ public class ImageServiceImpl implements ImageService {
         Map upload = cloudinary.uploader().upload(saveFile, ObjectUtils.emptyMap());
 
         return (String) upload.get("url");
+    }
+
+    @Override
+    public List<String> saveImages(MultipartFile[] images) {
+        List<String> imagesUrls = new ArrayList<>();
+
+        for (MultipartFile image : images) {
+            imagesUrls.add(saveImage(image));
+        }
+
+        return imagesUrls;
     }
 }

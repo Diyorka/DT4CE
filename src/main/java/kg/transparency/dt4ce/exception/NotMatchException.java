@@ -5,5 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
 public class NotMatchException extends RuntimeException{
-    public NotMatchException(String msg){}
+    public NotMatchException(String msg){
+        super(msg);
+    }
 }
