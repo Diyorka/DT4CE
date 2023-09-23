@@ -71,6 +71,10 @@ public class InitiativeServiceImpl implements InitiativeService {
 
     @Override
     public ResponseEntity<Long> addInitiative(RequestInitiativeDTO initiativeDTO, User user) {
+        if(user.getStatus() != Status.ACTIVATED){
+            throw new NoAccessException("Пройдите верификацию");
+        }
+
         if(!canUserProposeInitiative(user)){
             throw new NoAccessException("Вы можете предлагать инициативу только 1 раз в сутки");
         }
