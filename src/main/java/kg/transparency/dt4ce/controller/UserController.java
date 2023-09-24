@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.transparency.dt4ce.dto.user.ActivateUserDTO;
+import kg.transparency.dt4ce.dto.user.ResponseUserDTO;
 import kg.transparency.dt4ce.model.User;
 import kg.transparency.dt4ce.service.UserService;
 import lombok.AccessLevel;
@@ -51,6 +52,15 @@ public class UserController {
     public ResponseEntity<String> addImage(@RequestPart MultipartFile image,
                                            @AuthenticationPrincipal User user){
         return userService.addImage(image, user);
+    }
+
+    @GetMapping(value = "/my-info")
+    @SecurityRequirement(name = "JWT")
+    @Operation(
+            summary = "Информация о пользователе"
+    )
+    public ResponseUserDTO getMyInfo(@AuthenticationPrincipal User user){
+        return userService.getMyInfo(user);
     }
 
 }
